@@ -10,6 +10,7 @@
 - Clone down
 - run `npm i`
 - run `npm run start` - this will open ports 3000 and 8000
+- run `npm run test` from root to launch RTL tests
 
 ### Technologies
 - React
