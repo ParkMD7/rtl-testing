@@ -1,45 +1,25 @@
 import { render, screen } from "@testing-library/react";
-import { setupServer } from "msw/node";
-import { rest } from "msw";
 import { MemoryRouter } from "react-router-dom";
 
 import HomeRoute from "./HomeRoute";
+import { createServer } from "../test/server";
 
-// intercept any request to /api/repositories
-const handlers = [
-  rest.get("/api/repositories", (req, res, ctx) => {
-    const query = req.url.searchParams.get("q");
-    // extract language query param
-    const language = query.split("language:")[1];
-
-    return res(
-      ctx.json({
+createServer([
+  {
+    path: "/api/repositories",
+    res: (req, res, ctx) => {
+      const query = req.url.searchParams.get("q");
+      // extract language query param
+      const language = query.split("language:")[1];
+      return {
         items: [
           { id: 1234, full_name: `${language}_one` },
           { id: 5678, full_name: `${language}_two` },
         ],
-      })
-    );
-  }),
-];
-
-// setup a mock server
-const server = setupServer(...handlers);
-
-// start server one time before all tests run
-beforeAll(() => {
-  server.listen();
-});
-
-// reset handlers between each test
-afterEach(() => {
-  server.resetHandlers();
-});
-
-// close server one time before all tests run
-afterAll(() => {
-  server.close();
-});
+      }
+    }
+  }
+])
 
 test("it renders two links for each language fetched", async () => {
   // a child component has a Link component so need to add MemoryRouter
