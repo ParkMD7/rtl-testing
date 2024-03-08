@@ -16,10 +16,10 @@ createServer([
           { id: 1234, full_name: `${language}_one` },
           { id: 5678, full_name: `${language}_two` },
         ],
-      }
-    }
-  }
-])
+      };
+    },
+  },
+]);
 
 test("it renders two links for each language fetched", async () => {
   // a child component has a Link component so need to add MemoryRouter
@@ -45,10 +45,10 @@ test("it renders two links for each language fetched", async () => {
       name: new RegExp(`${language}_`),
     });
 
-    expect(links).toHaveLength(2)
-    expect(links[0]).toHaveTextContent(`${language}_one`)
+    expect(links).toHaveLength(2);
+    expect(links[0]).toHaveTextContent(`${language}_one`);
     expect(links[0]).toHaveAttribute("href", `/repositories/${language}_one`);
-    expect(links[1]).toHaveTextContent(`${language}_two`)
+    expect(links[1]).toHaveTextContent(`${language}_two`);
     expect(links[1]).toHaveAttribute("href", `/repositories/${language}_two`);
   }
 });
