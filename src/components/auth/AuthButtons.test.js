@@ -57,9 +57,20 @@ describe("when user is signed in", () => {
 
   test("the sign in and sign up buttons are not visible", async () => {
     await renderComponent()
+
+    const signInButton = screen.queryByRole("link", { name: /sign in/i });
+    const signUpButton = screen.queryByRole("link", { name: /sign up/i });
+
+    expect(signInButton).not.toBeInTheDocument()
+    expect(signUpButton).not.toBeInTheDocument()
   });
 
   test("the sign out button is visible", async () => {
     await renderComponent()
+
+    const signOutButton = screen.getByRole("link", { name: /sign out/i });
+
+    expect(signOutButton).toBeInTheDocument()
+    expect(signOutButton).toHaveAttribute("href", "/signout")
   });
 });
